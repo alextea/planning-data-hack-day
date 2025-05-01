@@ -1,0 +1,449 @@
+{% extends "layouts/unbranded.html" %}
+
+{% set pageName="Planning application — " + serviceName %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/public/stylesheets/application.css">
+  <script src="https://unpkg.com/maplibre-gl@^5.4.0/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@^5.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+{% endblock %}
+
+{% block header %}
+<div class="header">
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading--xl">{{ serviceName }}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row govuk-!-margin-bottom-9">
+  <div class="govuk-grid-column-one-half">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l">Householder application</span>
+      26 Clovelly Road
+    </h1>
+
+    <h2 class="govuk-heading-m">Application date: 1 May 2025</h2>
+
+    <p>Single storey side/rear (wrap around) extension, following the demolition of existing side extension.</p>
+  </div>
+
+  <div class="govuk-grid-column-one-half">
+    <div class="map-parent">
+      <div id="map">map</div>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% set development_type_tag %}
+      {{ govukTag({
+        text: "Extension"
+      })}}
+    {% endset %}
+
+    {% set property_type_tag %}
+      {{ govukTag({
+        text: "Mid terrace"
+      })}}
+    {% endset %}
+
+    {% set constraints_tags %}
+    {{ govukTag({
+      text: "Conservation area"
+    })}}
+
+    {{ govukTag({
+      text: "Article 4 direction"
+    })}}
+    {% endset %}
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: {
+            text: "Application ID"
+          },
+          value: {
+            text: "Ealing-243409HH"
+          }
+        },
+        {
+          key: {
+            text: "Address"
+          },
+          value: {
+            text: "26 Clovelly Road, London, W5 5HE"
+          }
+        },
+        {
+          key: {
+            text: "UPRN"
+          },
+          value: {
+            text: "000012082889"
+          }
+        },
+        {
+          key: {
+            text: "Type of development"
+          },
+          value: {
+            html: development_type_tag
+          }
+        },
+        {
+          key: {
+            text: "Type of property"
+          },
+          value: {
+            html: property_type_tag
+          }
+        },
+        {
+          key: {
+            text: "Applicable constraints"
+          },
+          value: {
+            html: constraints_tags
+          }
+        },
+        
+        {
+          key: {
+            text: "Appeal descision"
+          },
+          value: {
+            text: "Under condsideration"
+          }
+        }
+      ]
+    })}}
+
+    {% set applicable_tag %}
+      {{ govukTag({
+        text: "Applicable",
+        classes: "govuk-tag--green"
+      })}}
+    {% endset %}
+
+    {% set not_applicable_tag %}
+      {{ govukTag({
+        text: "Not applicable",
+        classes: "govuk-tag--red"
+      })}}
+    {% endset %}
+
+    {{ govukTable({
+      caption: "Suggested considerations",
+      captionClasses: "govuk-table__caption--m",
+      firstCellIsHeader: true,
+      head: [
+        { text: "Consideration" },
+        { text: "Status"}
+      ],
+      rows: [
+        [
+          { text: "Character and design" },
+          { html: applicable_tag }
+        ],
+        [
+          { text: "Heritage" },
+          { html: applicable_tag }
+        ],
+        [
+          { text: "Residential amenity" },
+          { html: applicable_tag }
+        ],
+        [
+          { text: "Highways and parking" },
+          { html: applicable_tag }
+        ],
+        [
+          { text: "Drainage and flooding" },
+          { html: not_applicable_tag }
+        ],
+        [
+          { text: "Trees and lanscaping" },
+          { html: applicable_tag }
+        ],
+        [
+          { text: "Protected species" },
+          { html: not_applicable_tag }
+        ]
+      ]
+    })
+  
+    }}
+  </div>
+</div>
+
+{% set approved_tag %}
+  {{ govukTag({
+    text: "Approved",
+    classes: "govuk-tag--green"
+  })}}
+{% endset %}
+
+{% set refused_tag %}
+  {{ govukTag({
+    text: "Refused",
+    classes: "govuk-tag--red"
+  })}}
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    {{ govukTable({
+      caption: "Similar applications",
+      captionClasses: "govuk-table__caption--m",
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "Application ID"
+        },
+        {
+          text: "Site name"
+        },
+        {
+          text: "Descision"
+        },
+        {
+          text: "Descision date"
+        },
+        {
+          text: "Type of development"
+        },
+        {
+          text: "Type of property"
+        },
+        {
+          text: "Constraints"
+        }
+      ],
+      rows: [
+        [
+          { html: '<a href="#">Ealing-243627HH</a>' },
+          { text: "1 Girton Close" },
+          { html: approved_tag },
+          { text: "20 November 2024" },
+          { html: development_type_tag },
+          { html: property_type_tag },
+          { html: constraints_tags }
+        ],
+        [
+          { html: '<a href="#">Ealing-243627HH</a>' },
+          { text: "1 Girton Close" },
+          { html: approved_tag },
+          { text: "20 November 2024" },
+          { html: development_type_tag },
+          { html: property_type_tag },
+          { html: constraints_tags }
+        ],
+        [
+          { html: '<a href="#">Ealing-243627HH</a>' },
+          { text: "1 Girton Close" },
+          { html: approved_tag },
+          { text: "20 November 2024" },
+          { html: development_type_tag },
+          { html: property_type_tag },
+          { html: constraints_tags }
+        ]
+
+      ]
+    })}}
+  </div>
+
+  <div class="govuk-grid-column-full">
+    {{ govukTable({
+      caption: "Nearby applications",
+      captionClasses: "govuk-table__caption--m",
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "Application ID"
+        },
+        {
+          text: "Site name"
+        },
+        {
+          text: "Descision"
+        },
+        {
+          text: "Descision date"
+        },
+        {
+          text: "Type of development"
+        },
+        {
+          text: "Type of property"
+        },
+        {
+          text: "Constraints"
+        }
+      ],
+      rows: [
+        [
+          { html: '<a href="#">Ealing-243627HH</a>' },
+          { text: "1 Girton Close" },
+          { html: approved_tag },
+          { text: "20 November 2024" },
+          { html: development_type_tag },
+          { html: property_type_tag },
+          { html: constraints_tags }
+        ],
+        [
+          { html: '<a href="#">Ealing-243627HH</a>' },
+          { text: "1 Girton Close" },
+          { html: approved_tag },
+          { text: "20 November 2024" },
+          { html: development_type_tag },
+          { html: property_type_tag },
+          { html: constraints_tags }
+        ],
+        [
+          { html: '<a href="#">Ealing-243627HH</a>' },
+          { text: "1 Girton Close" },
+          { html: approved_tag },
+          { text: "20 November 2024" },
+          { html: development_type_tag },
+          { html: property_type_tag },
+          { html: constraints_tags }
+        ]
+
+      ]
+    })}}
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Confidence level</h2>
+
+    {{ govukPanel ({
+      titleText: "High"
+    })}}
+
+    <p>Based on the similarilty of the other applications.</p>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+<script>
+// Address to display on map
+const targetAddress = "26 Clovelly Road London W5 5HE";
+const statusElement = document.getElementById('status');
+
+// Wait for DOM to load before initializing map
+document.addEventListener('DOMContentLoaded', function() {
+    // Verify MapLibre is available
+    if (typeof maplibregl === 'undefined') {
+        statusElement.textContent = 'Error: MapLibre GL JS library failed to load';
+        console.error('MapLibre GL JS not loaded');
+        return;
+    }
+
+    try {
+        // Create map with a simple style definition
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {
+                    'osm-tiles': {
+                        type: 'raster',
+                        tiles: [
+                            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                        ],
+                        tileSize: 256,
+                        attribution: '&copy; OpenStreetMap Contributors'
+                    }
+                },
+                layers: [
+                    {
+                        id: 'osm-tiles',
+                        type: 'raster',
+                        source: 'osm-tiles',
+                        minzoom: 0,
+                        maxzoom: 19
+                    }
+                ]
+            },
+            // center: [-77.0369, 38.9072], // Default center (will be updated)
+            zoom: 14
+        });
+        
+        // Add navigation controls (zoom buttons)
+        map.addControl(new maplibregl.NavigationControl());
+        
+        // Create a marker that will be positioned at the address location
+        const marker = new maplibregl.Marker({
+            color: "#FF0000"
+        });
+        
+        // Function to geocode address and position the map
+        async function loadAddressOnMap() {
+            console.log(`Finding location: ${targetAddress}`);
+            
+            try {
+                // Using Nominatim for geocoding
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(targetAddress)}&limit=1`
+                );
+                
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    const result = data[0];
+                    const longitude = parseFloat(result.lon);
+                    const latitude = parseFloat(result.lat);
+                    
+                    // Set marker at the address location
+                    marker.setLngLat([longitude, latitude]).addTo(map);
+                    
+                    // Create a popup with location info
+                    new maplibregl.Popup()
+                        .setLngLat([longitude, latitude])
+                        .setHTML(`<h3>${result.display_name}</h3>`)
+                        .addTo(map);
+                    
+                    // Fly to the location with animation
+                    map.flyTo({
+                        center: [longitude, latitude],
+                        zoom: 16,
+                        essential: true
+                    });
+                    
+                    console.log(`Location: ${result.display_name}`);
+                } else {
+                    console.log(`Could not find address: ${targetAddress}`);
+                }
+            } catch (error) {
+                console.log(`Error locating address: ${error.message}`);
+                console.error("Geocoding error:", error);
+            }
+        }
+        
+        // Load the address once the map is ready
+        map.on('load', loadAddressOnMap);
+        
+    } catch (error) {
+        console.log(`Map initialization error: ${error.message}`);
+        console.error('Map error:', error);
+    }
+});
+</script>
+{% endblock %}
